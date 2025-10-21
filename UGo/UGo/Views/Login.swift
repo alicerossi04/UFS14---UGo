@@ -31,7 +31,7 @@ struct Login: View {
     }
     
     var body: some View {
-//        NavigationView {
+        NavigationStack {
             VStack {
                 Image("Logo").resizable().frame(width: 100, height: 100)
                 Text("Log in").font(.largeTitle).fontWeight(.thin)
@@ -73,14 +73,15 @@ struct Login: View {
                     ButtonsApi(Immagine: "GitHub")
                 }
                 
-                NavigationLink(destination: ContentView()) {
+                NavigationLink(destination: Registrazione()) {
                     Text("Don't have an account yet? Sign up").padding(.top, 30).foregroundColor(.black)
                 }
             }.frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(Color.milGreen)
+                
 
-            
-        //}
+            //.navigationBarBackButtonHidden(true) da mettere per togliere "back"
+        }
     }
 }
 

@@ -39,12 +39,13 @@ struct TextBoxes : View {
             }
 
         }.padding(10).frame(maxWidth: 300, maxHeight: 60).background(Color.white).cornerRadius(
-            5
-        )
-        
-        if isMandatory && !isValid {
-            Text("Inserire un campo valido").foregroundColor(.red).font(.caption)
-        }
+            5).overlay(
+                RoundedRectangle(cornerRadius: 5)
+                    .stroke(
+                        isMandatory && !isValid ? Color.red : Color.gray,
+                        lineWidth: 1
+                    )
+            ).padding(.top)
     }
 }
 
@@ -74,4 +75,85 @@ struct ButtonsApi : View {
             .background(Color.licorice)
             .cornerRadius(10)
     }
+}
+
+//bottoni custom per tag
+struct ButtonsTags : View {
+    var Immagine: String
+    var Testo: String
+    
+    var body : some View {
+        HStack{
+            Image(systemName: Immagine)
+            Text(Testo)
+                .frame(maxWidth: 170)
+                .font(.body)
+        }.padding(10)
+            .background(.licorice)
+            .cornerRadius(10)
+            .foregroundColor(.white)
+    }
+}
+
+
+//struttura base per card singola
+struct RecipeCardView: View {
+    let ricetta: Ricetta
+
+    var body: some View {
+        VStack(alignment: .leading) {
+            
+            AsyncImage(url: URL(string: ricetta.image)) { image in image
+            .resizable()
+            .aspectRatio(contentMode: .fill)
+            } placeholder: {}
+            .frame(height: 120)
+            .clipped()
+            .cornerRadius(10)
+            .shadow(radius: 3)
+
+            Text(ricetta.name)
+                .font(.subheadline)
+                .lineLimit(1)
+
+            VStack {
+                Text(ricetta.cuisine)
+                    .font(.caption)
+                Text("\(ricetta.prepTimeMinutes) min")
+                    .font(.caption)
+            }
+        }
+        .padding(8)
+        .background(.white)
+        .cornerRadius(10)
+    }
+}
+
+//distribuzione card in griglia
+struct RicettaCardApi: View {
+    @State var ricette = [Ricetta]()
+        
+        private var columns: [GridItem] = [
+            GridItem(.flexible()),
+            GridItem(.flexible())
+        ]
+        
+        var body: some View {
+            NavigationView {
+                ScrollView {
+                    LazyVGrid(columns: columns, spacing: 15) {
+                        ForEach(ricette) { ricetta in
+                            RecipeCardView(ricetta: ricetta)
+                        }
+                    }
+                    .padding()
+                }
+                .background(Color.milGreen)
+                .onAppear() {
+                    Api().loadAllRecipesData { (ricetteCaricate) in
+                        self.ricette = ricetteCaricate
+                    }
+                }
+            }
+        }
 }

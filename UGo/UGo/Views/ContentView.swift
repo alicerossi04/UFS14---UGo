@@ -9,9 +9,22 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationStack {
+            VStack {
+                Image("LogoIniz").resizable().frame(width: .infinity, height: 400).padding(.bottom, 50)
+                
+                NavigationLink(destination: Login()){
+                    Buttons(Testo: "Login")
+                }
+                
+                NavigationLink(destination: Login()){
+                    Buttons(Testo: "Register")
+                }.padding(.top, 20)
+                
+            }.frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color.lightGreen)
+        }
         
-        //in qui mettere metodo che mostra subito login e registrazione in modo da poter utilizzare navigationstack anziche navigation view (verà usata solo qui)
     }
 }
 
