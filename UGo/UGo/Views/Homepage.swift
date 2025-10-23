@@ -42,7 +42,7 @@ struct Homepage: View {
                         
             Text("Routes of the day").font(.title3).frame(maxWidth: .infinity, alignment: .leading).padding(.leading, 20).padding(.top, 10).foregroundColor(.licorice)
             
-            RicettaCardApi()
+            ItinerariCard()
             
         }.frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.milGreen)

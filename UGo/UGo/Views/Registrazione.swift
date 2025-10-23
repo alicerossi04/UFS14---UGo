@@ -91,7 +91,7 @@ struct Registrazione: View {
                     .padding(.top, 30)
                 
                 HStack{
-                    ButtonsApi(Immagine: "Google")
+                    ButtonsApi(Immagine: "Google") //aggiungere varie logiche login alla fine
                     ButtonsApi(Immagine: "Apple")
                     ButtonsApi(Immagine: "GitHub")
                 }

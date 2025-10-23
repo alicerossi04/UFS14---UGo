@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Firebase
+import GoogleSignIn
 
 @main
 struct UGoApp: App {
@@ -14,6 +15,7 @@ struct UGoApp: App {
     init(){
         FirebaseApp.configure()
     }
+    
     var body: some Scene {
         WindowGroup {
             ContentView()

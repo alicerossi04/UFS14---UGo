@@ -97,32 +97,37 @@ struct ButtonsTags : View {
 
 
 //struttura base per card singola
-struct RecipeCardView: View {
-    let ricetta: Ricetta
+struct ItinerariCardView: View {
+    let itinerario: Itinerario
 
     var body: some View {
         VStack(alignment: .leading) {
-            
-            AsyncImage(url: URL(string: ricetta.image)) { image in image
-            .resizable()
-            .aspectRatio(contentMode: .fill)
-            } placeholder: {}
-            .frame(height: 120)
-            .clipped()
-            .cornerRadius(10)
-            .shadow(radius: 3)
+            if let urlString = itinerario.URL_immagine,
+               let url = URL(string: urlString) {
+                AsyncImage(url: url) { image in
+                    image.resizable()
+                         .aspectRatio(contentMode: .fill)
+                } placeholder: {
+                    ProgressView()
+                }
+                .frame(width: 160, height: 120)
+                .clipped()
+                .cornerRadius(10)
+                .shadow(radius: 3)
+            }
 
-            Text(ricetta.name)
+            Text(itinerario.nome)
                 .font(.subheadline)
                 .lineLimit(1)
                 .foregroundColor(.licorice)
 
             VStack {
-                Text(ricetta.cuisine)
+                Text(itinerario.durata_ore)
                     .font(.caption)
-                Text("\(ricetta.prepTimeMinutes) min")
+                Text(itinerario.distanza_km)
                     .font(.caption)
-            }.foregroundColor(.licorice)
+            }
+            .foregroundColor(.black)
         }
         .padding(8)
         .background(.white)
@@ -130,31 +135,32 @@ struct RecipeCardView: View {
     }
 }
 
+
 //distribuzione card in griglia
-struct RicettaCardApi: View {
-    @State var ricette = [Ricetta]()
-        
-        private var columns: [GridItem] = [
-            GridItem(.flexible()),
-            GridItem(.flexible())
-        ]
-        
-        var body: some View {
-            NavigationView {
-                ScrollView {
-                    LazyVGrid(columns: columns, spacing: 15) {
-                        ForEach(ricette) { ricetta in
-                            RecipeCardView(ricetta: ricetta)
-                        }
+struct ItinerariCard: View {
+    @State private var itinerari = [Itinerario]()
+
+    private var columns: [GridItem] = [
+        GridItem(.flexible()),
+        GridItem(.flexible())
+    ]
+
+    var body: some View {
+        NavigationView {
+            ScrollView {
+                LazyVGrid(columns: columns, spacing: 15) {
+                    ForEach(itinerari) { itin in
+                        ItinerariCardView(itinerario: itin)
                     }
-                    .padding()
                 }
-                .background(Color.milGreen)
-                .onAppear() {
-                    Api().loadAllRecipesData { (ricetteCaricate) in
-                        self.ricette = ricetteCaricate
-                    }
+                .padding()
+            }
+            .background(.milGreen)
+            .onAppear {
+                ItinerarioViewModel().fetchItinerari { itinerariCaricati in
+                    self.itinerari = itinerariCaricati
                 }
             }
         }
+    }
 }
