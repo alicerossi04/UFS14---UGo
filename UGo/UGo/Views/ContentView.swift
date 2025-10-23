@@ -17,7 +17,7 @@ struct ContentView: View {
                     Buttons(Testo: "Login")
                 }
                 
-                NavigationLink(destination: Login()){
+                NavigationLink(destination: Registrazione()){
                     Buttons(Testo: "Register")
                 }.padding(.top, 20)
                 

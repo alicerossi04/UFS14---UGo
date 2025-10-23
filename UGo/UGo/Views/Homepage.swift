@@ -16,7 +16,7 @@ struct Homepage: View {
                         .font(.title3)
                         .foregroundColor(.white)
                         .padding(.top, 100)
-                    TextField("Search", text: .constant("")).padding(10).background(.white).cornerRadius(40).padding(20)
+                    TextField("Search", text: .constant("")).padding(10).background(.white).foregroundColor(.licorice).cornerRadius(40).padding(20)
                 }.background(.licorice).cornerRadius(40).padding(20)
                 
                 Image("Logo").resizable().frame(width: 100, height: 100).padding(.top, -130)
@@ -26,7 +26,7 @@ struct Homepage: View {
             }
             
             VStack{
-                Text("Categories").font(.title3).frame(maxWidth: .infinity, alignment: .leading)
+                Text("Categories").font(.title3).frame(maxWidth: .infinity, alignment: .leading).foregroundColor(.licorice)
 
                 
                 ScrollView(.horizontal, showsIndicators: false) {
@@ -40,7 +40,7 @@ struct Homepage: View {
                 }
             }.padding(20).background(Color(.white))
                         
-            Text("Routes of the day").font(.title3).frame(maxWidth: .infinity, alignment: .leading).padding(.leading, 20).padding(.top, 10)
+            Text("Routes of the day").font(.title3).frame(maxWidth: .infinity, alignment: .leading).padding(.leading, 20).padding(.top, 10).foregroundColor(.licorice)
             
             RicettaCardApi()
             

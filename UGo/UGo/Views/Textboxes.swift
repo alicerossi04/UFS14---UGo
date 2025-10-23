@@ -39,7 +39,7 @@ struct TextBoxes : View {
             }
 
         }.padding(10).frame(maxWidth: 300, maxHeight: 60).background(Color.white).cornerRadius(
-            5).overlay(
+            5).foregroundColor(.licorice).overlay(
                 RoundedRectangle(cornerRadius: 5)
                     .stroke(
                         isMandatory && !isValid ? Color.red : Color.gray,
@@ -49,7 +49,7 @@ struct TextBoxes : View {
     }
 }
 
-//bottoni custom log in e sign up
+//bottoni custom log in e sign up (da aggiornare mettendo funzione!!!!)
 struct Buttons : View {
     var Testo: String
     
@@ -115,13 +115,14 @@ struct RecipeCardView: View {
             Text(ricetta.name)
                 .font(.subheadline)
                 .lineLimit(1)
+                .foregroundColor(.licorice)
 
             VStack {
                 Text(ricetta.cuisine)
                     .font(.caption)
                 Text("\(ricetta.prepTimeMinutes) min")
                     .font(.caption)
-            }
+            }.foregroundColor(.licorice)
         }
         .padding(8)
         .background(.white)

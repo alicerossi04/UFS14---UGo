@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import Firebase
+import FirebaseAuth
 
 struct Login: View {
     
@@ -59,9 +61,19 @@ struct Login: View {
                 }.padding(.bottom, 30)
                 
                 NavigationLink(destination: Homepage()){
-                        Buttons(
-                            Testo: "Log in"
-                        )
+                    /*Buttons(
+                     Testo: "Log in"
+                     )*/
+                    Button{
+                        login()
+                    } label: {
+                        Text("Log in")
+                    }.frame(maxWidth: 170)
+                        .font(.title).fontWeight(.thin)
+                        .padding(10)
+                        .background(Color.licorice)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
                 }.disabled(!valido)
                 
                 Text("Or log back in with")
@@ -81,6 +93,14 @@ struct Login: View {
                 
 
             //.navigationBarBackButtonHidden(true) da mettere per togliere "back"
+        }
+    }
+    
+    func login(){
+        Auth.auth().signIn(withEmail: Email, password: Password){result, error in
+            if error != nil {
+                print(error!.localizedDescription)
+            }
         }
     }
 }
