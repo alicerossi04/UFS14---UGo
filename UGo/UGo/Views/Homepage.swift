@@ -28,16 +28,7 @@ struct Homepage: View {
             VStack{
                 Text("Categories").font(.title3).frame(maxWidth: .infinity, alignment: .leading).foregroundColor(.licorice)
 
-                
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack{
-                        ButtonsTags(Immagine:"mountain.2", Testo: "Mountain")
-                        ButtonsTags(Immagine:"figure.walk", Testo: "By foot")
-                        ButtonsTags(Immagine:"bicycle", Testo: "By bike")
-                        ButtonsTags(Immagine:"figure.and.child.holdinghands", Testo: "for family")
-                        //da fare: mettere ciclo foreach per tag
-                    }
-                }
+                ListaTags()
             }.padding(20).background(Color(.white))
                         
             Text("Routes of the day").font(.title3).frame(maxWidth: .infinity, alignment: .leading).padding(.leading, 20).padding(.top, 10).foregroundColor(.licorice)

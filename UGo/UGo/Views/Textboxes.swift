@@ -79,12 +79,10 @@ struct ButtonsApi : View {
 
 //bottoni custom per tag
 struct ButtonsTags : View {
-    var Immagine: String
     var Testo: String
     
     var body : some View {
         HStack{
-            Image(systemName: Immagine)
             Text(Testo)
                 .frame(maxWidth: 170)
                 .font(.body)
@@ -164,3 +162,26 @@ struct ItinerariCard: View {
         }
     }
 }
+
+//lista di tag
+struct ListaTags: View {
+    @State private var tags = [Tags]()
+
+    var body: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 10) {
+                ForEach(tags, id: \.id) { tag in
+                    ButtonsTags(Testo: tag.nome_tag)
+                }
+            }
+            .padding(.horizontal)
+        }
+        .background(Color.white)
+        .onAppear {
+            TagsViewModel().fetchTags { tagsCaricati in
+                self.tags = tagsCaricati
+            }
+        }
+    }
+}
+

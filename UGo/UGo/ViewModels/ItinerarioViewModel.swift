@@ -21,7 +21,5 @@ class ItinerarioViewModel {
             completion(itinerari)
         }
     }
-    
-    //aggiungere difficolta
 }
 
