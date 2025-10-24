@@ -13,10 +13,10 @@ struct Itinerario: Identifiable, Codable {
     var Coordinate_E: String
     var Coordinate_S: String
     var ID: Int
-    var ID_difficolta: DocumentReference?
-    var ID_regione: DocumentReference?
-    var ID_tag: [DocumentReference]
-    var ID_tappaItinerario: [DocumentReference]
+    var difficolta: String
+    var regione: String
+    var tag: String
+    var tappe_itinerario: [String]
     var descrizione: String
     var distanza_km: String
     var durata_ore: String

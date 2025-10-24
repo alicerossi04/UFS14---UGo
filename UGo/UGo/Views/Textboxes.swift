@@ -148,7 +148,9 @@ struct ItinerariCard: View {
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 15) {
                     ForEach(itinerari) { itin in
-                        ItinerariCardView(itinerario: itin)
+                        NavigationLink(destination: PaginaDettagli(itinerario: itin)){
+                            ItinerariCardView(itinerario: itin)
+                        }
                     }
                 }
                 .padding()
