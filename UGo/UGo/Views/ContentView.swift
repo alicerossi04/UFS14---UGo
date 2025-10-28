@@ -14,11 +14,11 @@ struct ContentView: View {
                 Image("LogoIniz").resizable().frame(width: .infinity, height: 400).padding(.bottom, 50)
                 
                 NavigationLink(destination: Login()){
-                    Buttons(Testo: "Login")
+                    ButtonsSemplici(Testo: "Login")
                 }
                 
                 NavigationLink(destination: Registrazione()){
-                    Buttons(Testo: "Register")
+                    ButtonsSemplici(Testo: "Register")
                 }.padding(.top, 20)
                 
             }.frame(maxWidth: .infinity, maxHeight: .infinity)

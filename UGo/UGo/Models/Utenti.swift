@@ -7,10 +7,9 @@
 
 import SwiftUI
 
-struct Utenti: Identifiable {
+struct Utenti: Identifiable, Decodable {
     let id = UUID()
     let ID : Int
     var Username: String
     var Email: String
-    var Foto: String
 }

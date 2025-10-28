@@ -2,7 +2,7 @@
 //  PaginaDettagli.swift
 //  UGo
 //
-//  Created by Alice Rossi on 24/10/25.
+//  Created by s11 on 28/10/25.
 //
 
 import SwiftUI
@@ -26,7 +26,7 @@ struct PaginaDettagli: View {
                         }
                     }
                     
-                    Image("Logo").resizable().frame(width: 90, height: 90).padding(.top, -280)
+                    Image("Logo").resizable().frame(width: 90, height: 90).padding(.top, -270)
                     Text(itinerario.nome).font(.title).bold().padding(.bottom, 40).shadow(radius: 10).foregroundColor(.white)
                 }
                 
@@ -49,31 +49,31 @@ struct PaginaDettagli: View {
                 Divider()
                 
                 VStack{
-                    //mettere mappa qui al posto di immagine
-                    if let urlString = itinerario.URL_immagine,
-                       let url = URL(string: urlString) {
-                        AsyncImage(url: url) { image in
-                            image.resizable()
-                                 .aspectRatio(contentMode: .fit)
-                                 .cornerRadius(10)
-                                 .shadow(radius: 3)
-                                 .padding(20)
-                        } placeholder: {
-                            ProgressView()
-                        }
-                    }
+                    MappaItinerarioView(itinerario: itinerario).frame(height: 300)
                     
-                    Text("Tappe").font(.title).padding(.bottom, 20)
+                    Text("Tappe").font(.title).frame(maxWidth: .infinity, alignment: .leading).padding(.leading, 20)
                     ForEach(itinerario.tappe_itinerario, id: \.self) { tappa in
                         Text("- \(tappa)")
-                    }
-
-                }.background(Color.lightGreen).frame(alignment: .leading)
+                    }.frame(maxWidth: .infinity, alignment: .leading).padding(.leading, 20).padding(.top, 5)
+                }.padding(.bottom, 20).background(Color.lightGreen).cornerRadius(10)
             }
-            .padding(20).foregroundColor(.licorice)
+            .padding().foregroundColor(.licorice)
+            
+            Divider()
+            
+            HStack{
+                ButtonsCat(Immagine: "mappin.and.ellipse", Titolo: "To visit")
+                ButtonsCat(Immagine: "heart", Titolo: "Favorite")
+                ButtonsCat(Immagine: "square.and.arrow.up", Titolo: "Share")
+            }
         }
         .navigationBarTitleDisplayMode(.inline)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.milGreen)
     }
+}
+
+
+#Preview {
+    PaginaDettagli(itinerario: .esempio)
 }

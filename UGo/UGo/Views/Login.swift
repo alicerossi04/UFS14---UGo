@@ -15,6 +15,9 @@ struct Login: View {
     @State var Email: String = ""
     @State var Password: String = ""
     
+    @State private var errorMessage: String = ""
+    @State private var isLoggedIn: Bool = false
+    
     var isUsernameValid: Bool {
         !Username.isEmpty
     }
@@ -60,21 +63,11 @@ struct Login: View {
                     
                 }.padding(.bottom, 30)
                 
-                NavigationLink(destination: Homepage()){
-                    /*Buttons(
-                     Testo: "Log in"
-                     )*/
-                    Button{
-                        login()
-                    } label: {
-                        Text("Log in")
-                    }.frame(maxWidth: 170)
-                        .font(.title).fontWeight(.thin)
-                        .padding(10)
-                        .background(Color.licorice)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                }.disabled(!valido)
+                Buttons(Testo: "Log in", action: login).disabled(!valido)
+                
+                if !errorMessage.isEmpty {
+                    Text(errorMessage).foregroundColor(.red)
+                }
                 
                 Text("Or log back in with")
                     .padding(.top, 30)
@@ -88,6 +81,11 @@ struct Login: View {
                 NavigationLink(destination: Registrazione()) {
                     Text("Don't have an account yet? Sign up").padding(.top, 30).foregroundColor(.black)
                 }
+                
+                NavigationLink(destination: Homepage(), isActive: $isLoggedIn){
+                    EmptyView()
+                }
+                
             }.frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(Color.milGreen)
                 
@@ -97,9 +95,16 @@ struct Login: View {
     }
     
     func login(){
-        Auth.auth().signIn(withEmail: Email, password: Password){result, error in
+        Auth.auth().signIn(withEmail: Email, password: Password){
+            authResult, error in
             if error != nil {
-                print(error!.localizedDescription)
+                print("Errore login")
+                errorMessage = "Login failed, please try again"
+                isLoggedIn = false
+                return
+            } else {
+                errorMessage = ""
+                isLoggedIn = true
             }
         }
     }

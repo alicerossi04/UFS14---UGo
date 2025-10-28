@@ -49,18 +49,38 @@ struct TextBoxes : View {
     }
 }
 
-//bottoni custom log in e sign up (da aggiornare mettendo funzione!!!!)
+//bottoni custom log in e sign up (con funzione)
 struct Buttons : View {
+    var Testo: String
+    var action: () -> Void
+    
+    var body : some View {
+        Button(action: {
+            action()
+        }){
+            Text(Testo)
+                .frame(maxWidth: 170)
+                .font(.title).fontWeight(.thin)
+                .padding(10)
+                .background(Color.licorice)
+                .foregroundColor(.white)
+                .cornerRadius(10)
+        }
+    }
+}
+
+//bottoni custom log in e sign up (senza funzione)
+struct ButtonsSemplici : View {
     var Testo: String
     
     var body : some View {
-        Text(Testo)
-            .frame(maxWidth: 170)
-            .font(.title).fontWeight(.thin)
-            .padding(10)
-            .background(Color.licorice)
-            .foregroundColor(.white)
-            .cornerRadius(10)
+            Text(Testo)
+                .frame(maxWidth: 170)
+                .font(.title).fontWeight(.thin)
+                .padding(10)
+                .background(Color.licorice)
+                .foregroundColor(.white)
+                .cornerRadius(10)
     }
 }
 
@@ -144,7 +164,6 @@ struct ItinerariCard: View {
     ]
 
     var body: some View {
-        NavigationView {
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 15) {
                     ForEach(itinerari) { itin in
@@ -163,7 +182,6 @@ struct ItinerariCard: View {
             }
         }
     }
-}
 
 //lista di tag
 struct ListaTags: View {
@@ -187,3 +205,29 @@ struct ListaTags: View {
     }
 }
 
+//bottoni categorie
+struct ButtonsCat: View {
+    var Immagine: String
+    var Titolo: String
+    
+    var body: some View {
+        Button(action: {
+        }) {
+            VStack(spacing: 10) {
+                Image(systemName: Immagine)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 40, height: 40)
+                    .foregroundColor(.white)
+                
+                Text(Titolo)
+                    .font(.headline)
+                    .foregroundColor(.white)
+            }
+            .padding()
+            .frame(minWidth: 100, minHeight: 100)
+            .background(Color.licorice)
+            .cornerRadius(15)
+        }
+    }
+}

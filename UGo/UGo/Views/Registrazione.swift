@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import Firebase
+import FirebaseFirestore
 import FirebaseAuth
 
 struct Registrazione: View {
@@ -72,20 +72,8 @@ struct Registrazione: View {
                 
                 
                 NavigationLink(destination: Homepage()){
-                    /*Buttons(
-                     Testo: "Sign up"
-                     )*/
-                    Button{
-                        register()
-                    } label: {
-                        Text("Sign up")
-                    }.frame(maxWidth: 170)
-                        .font(.title).fontWeight(.thin)
-                        .padding(10)
-                        .background(Color.licorice)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                }.disabled(!valido)
+                    Buttons(Testo: "Register", action: register).disabled(!valido)
+                }
                 
                 Text("Or register with")
                     .padding(.top, 30)
@@ -101,19 +89,24 @@ struct Registrazione: View {
                 }
             }.frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(Color.milGreen)
-
+            
             
         }
     }
     
     func register() {
-        Auth.auth().createUser(withEmail: Email, password: Password){ result, error in
+        Auth.auth().createUser(withEmail: Email, password: Password){ authResult, error in
             if error != nil {
-                print(error?.localizedDescription)
+                print("Errore registrazione")
+                return
+            }
+            
+            if let user = authResult?.user {
+                let userData = ["username": Username, "email": Email, "uid": user.uid]
             }
         }
+        
     }
-    
 }
 
 #Preview {

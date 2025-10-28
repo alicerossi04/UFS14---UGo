@@ -10,8 +10,10 @@ import FirebaseFirestore
 
 struct Itinerario: Identifiable, Codable {
     @DocumentID var id: String?
-    var Coordinate_E: String
-    var Coordinate_S: String
+    var Coordinate_E_lat: String
+    var Coordinate_E_lon: String
+    var Coordinate_S_lat: String
+    var Coordinate_S_lon: String
     var ID: Int
     var difficolta: String
     var regione: String
