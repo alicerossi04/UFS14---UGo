@@ -99,7 +99,7 @@ struct ButtonsApi : View {
 
 //bottoni custom per tag
 struct ButtonsTags : View {
-    var Testo: String
+    var Titolo: String
     
     var body : some View {
         HStack{
@@ -186,12 +186,24 @@ struct ItinerariCard: View {
 //lista di tag
 struct ListaTags: View {
     @State private var tags = [Tags]()
+    @Binding var selectedTag: String?
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 10) {
                 ForEach(tags, id: \.id) { tag in
-                    ButtonsTags(Testo: tag.nome_tag)
+                    Button(action: {
+                        if selectedTag == tag.nome_tag {
+                            selectedTag = nil
+                        } else {
+                            selectedTag = tag.nome_tag
+                        }
+                    }) {
+                        ButtonsTags(
+                            Titolo: tag.nome_tag,
+                            isSelected: selectedTag == tag.nome_tag
+                        )
+                    }
                 }
             }
             .padding(.horizontal)
