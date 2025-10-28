@@ -136,6 +136,7 @@ struct ItinerariCardView: View {
 
             Text(itinerario.nome)
                 .font(.subheadline)
+                .fontWeight(.bold)
                 .lineLimit(1)
                 .foregroundColor(.licorice)
 
@@ -156,12 +157,16 @@ struct ItinerariCardView: View {
 
 //distribuzione card in griglia
 struct ItinerariCard: View {
-    @State private var itinerari = [Itinerario]()
+    let itinerari: [Itinerario]
 
     private var columns: [GridItem] = [
         GridItem(.flexible()),
         GridItem(.flexible())
     ]
+    
+    init(itinerari: [Itinerario] = []){
+        self.itinerari = itinerari
+    }
 
     var body: some View {
             ScrollView {
@@ -175,11 +180,6 @@ struct ItinerariCard: View {
                 .padding()
             }
             .background(.milGreen)
-            .onAppear {
-                ItinerarioViewModel().fetchItinerari { itinerariCaricati in
-                    self.itinerari = itinerariCaricati
-                }
-            }
         }
     }
 
