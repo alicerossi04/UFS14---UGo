@@ -10,15 +10,16 @@ import SwiftUI
 struct Homepage: View {
     @State private var searchText: String = ""
     @State private var itinerari: [Itinerario] = []
+    @State private var selectedTag: String? = nil
     
     var filteredItinerari: [Itinerario] {
-        if searchText.isEmpty{
-            return itinerari
-        } else {
-            return itinerari.filter { itinerario in
+        return itinerari.filter { itinerario in
+            let tagMatch = selectedTag == nil || itinerario.tag == selectedTag
+            let searchMatch = searchText.isEmpty ||
                 itinerario.nome.lowercased().contains(searchText.lowercased()) ||
                 itinerario.regione.lowercased().contains(searchText.lowercased())
-            }
+            
+            return tagMatch && searchMatch
         }
     }
     
@@ -41,7 +42,7 @@ struct Homepage: View {
                 VStack{
                     Text("Categories").font(.title3).frame(maxWidth: .infinity, alignment: .leading).foregroundColor(.licorice)
                     
-                    ListaTags()
+                    ListaTags(selectedTag: $selectedTag)
                 }.padding(20).background(Color(.white))
                 
                 Text(searchText.isEmpty ? "Routes of the day" : "Search results")

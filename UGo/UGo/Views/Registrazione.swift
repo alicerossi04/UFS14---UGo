@@ -37,7 +37,7 @@ struct Registrazione: View {
         NavigationStack {
             VStack {
                 Image("Logo").resizable().frame(width: 100, height: 100)
-                Text("Sign up").font(.largeTitle).fontWeight(.thin)
+                Text("Sign up").font(.largeTitle).fontWeight(.thin).foregroundStyle(.licorice)
                 
                 VStack (alignment: .leading){
                     TextBoxes(
@@ -103,6 +103,9 @@ struct Registrazione: View {
             
             if let user = authResult?.user {
                 let userData = ["username": Username, "email": Email, "uid": user.uid]
+                
+                let db = Firestore.firestore()
+                db.collection("Utenti").document(user.uid).setData(userData)
             }
         }
         

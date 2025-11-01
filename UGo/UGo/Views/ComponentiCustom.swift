@@ -100,16 +100,17 @@ struct ButtonsApi : View {
 //bottoni custom per tag
 struct ButtonsTags : View {
     var Titolo: String
+    var isSelected: Bool = false
     
     var body : some View {
         HStack{
-            Text(Testo)
+            Text(Titolo)
                 .frame(maxWidth: 170)
                 .font(.body)
         }.padding(10)
-            .background(.licorice)
+            .background(isSelected ? Color.lightGreen : Color.licorice)
             .cornerRadius(10)
-            .foregroundColor(.white)
+            .foregroundColor(isSelected ? Color.licorice : Color.white)
     }
 }
 
@@ -192,30 +193,23 @@ struct ListaTags: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 10) {
                 ForEach(tags, id: \.id) { tag in
-                    Button(action: {
-                        if selectedTag == tag.nome_tag {
-                            selectedTag = nil
-                        } else {
-                            selectedTag = tag.nome_tag
+                    ButtonsTags(Titolo: tag.nome_tag, isSelected: selectedTag == tag.nome_tag)
+                        .onTapGesture {
+                            if selectedTag == tag.nome_tag {
+                                selectedTag = nil
+                            } else {
+                                selectedTag = tag.nome_tag
+                            }
                         }
-                    }) {
-                        ButtonsTags(
-                            Titolo: tag.nome_tag,
-                            isSelected: selectedTag == tag.nome_tag
-                        )
                     }
-                }
-            }
-            .padding(.horizontal)
-        }
-        .background(Color.white)
-        .onAppear {
-            TagsViewModel().fetchTags { tagsCaricati in
-                self.tags = tagsCaricati
+                }.padding(.horizontal)
+        }.background(Color.white)
+            .onAppear{
+                TagsViewModel().fetchTags{ tagsCaricati in self.tags = tagsCaricati}
             }
         }
     }
-}
+
 
 //bottoni categorie
 struct ButtonsCat: View {

@@ -31,7 +31,7 @@ struct Login: View {
     }
     
     var valido: Bool {
-        isUsernameValid &&
+        isEmailValid &&
         isPasswordValid
     }
     
@@ -39,16 +39,16 @@ struct Login: View {
         NavigationStack {
             VStack {
                 Image("Logo").resizable().frame(width: 100, height: 100)
-                Text("Log in").font(.largeTitle).fontWeight(.thin)
+                Text("Log in").font(.largeTitle).fontWeight(.thin).foregroundStyle(.licorice)
                 
                 VStack (alignment: .leading){
                     TextBoxes(
                         Icon: "person.circle",
-                        TextValue: $Username,
+                        TextValue: $Email,
                         isMandatory: true,
-                        isValid: isUsernameValid,
+                        isValid: isEmailValid,
                         isSecret: false,
-                        TextHint: "Username"
+                        TextHint: "Email"
                     )
                     
                     TextBoxes(
