@@ -89,6 +89,7 @@ struct Registrazione: View {
                 }
             }.frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(Color.milGreen)
+                .navigationBarBackButtonHidden(true)
             
             
         }

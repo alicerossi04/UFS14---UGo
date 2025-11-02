@@ -24,7 +24,6 @@ struct Homepage: View {
     }
     
     var body: some View {
-        NavigationView{
             VStack{
                 ZStack{
                     VStack{
@@ -37,6 +36,20 @@ struct Homepage: View {
                     }.background(.licorice).cornerRadius(40).padding(20)
                     
                     Image("Logo").resizable().frame(width: 100, height: 100).padding(.top, -130)
+                    
+                    VStack{
+                        HStack {
+                            Spacer()
+                            NavigationLink(destination: UserProfile()) {
+                                Image(systemName: "person.circle.fill")
+                                    .resizable()
+                                    .frame(width: 40, height: 40)
+                                    .foregroundColor(.licorice)
+                            }
+                            .padding(.trailing, 20)
+                        }
+                        Spacer()
+                    }
                 }
                 
                 VStack{
@@ -60,8 +73,7 @@ struct Homepage: View {
                     ItinerarioViewModel().fetchItinerari{ itinerariCaricati in
                         self.itinerari = itinerariCaricati
                     }
-                }
-        }
+                }.navigationBarBackButtonHidden(true)
     }
 }
 

@@ -88,9 +88,7 @@ struct Login: View {
                 
             }.frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(Color.milGreen)
-                
-
-            //.navigationBarBackButtonHidden(true) da mettere per togliere "back"
+                .navigationBarBackButtonHidden(true)
         }
     }
     
