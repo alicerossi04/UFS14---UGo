@@ -237,3 +237,45 @@ struct ButtonsCat: View {
         }
     }
 }
+
+//icone per liste profilo
+struct ListeProfilo: View {
+    var nome : String
+    var simbolo : String
+
+    var body: some View {
+        VStack(alignment: .leading) {
+            ZStack{
+                   let url = URL(string: "https://picsum.photos/600/400")
+                    AsyncImage(url: url) { image in
+                        image.resizable()
+                            .aspectRatio(contentMode: .fill)
+                    } placeholder: {
+                        ProgressView()
+                    }
+                    .frame(width: 160, height: 120)
+                    .opacity(0.3)
+                    .clipped()
+                    .cornerRadius(10)
+                    .shadow(radius: 3)
+                
+                Text(nome)
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .lineLimit(1)
+                    .foregroundColor(.white)
+                
+                Image(systemName: simbolo)
+                    .padding(.top, 80)
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .lineLimit(1)
+                    .foregroundColor(.white)
+                    
+            }
+        }
+        .padding(8)
+        .background(.licorice)
+        .cornerRadius(10)
+    }
+}

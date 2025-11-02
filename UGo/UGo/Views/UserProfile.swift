@@ -12,7 +12,6 @@ import FirebaseFirestore
 struct UserProfile: View {
     @State private var username: String = ""
     @State private var email: String = ""
-    @State private var showingLogin = false
     
     var body: some View {
         NavigationStack{
@@ -41,10 +40,13 @@ struct UserProfile: View {
                         .padding(.horizontal, 50)
                 }
                 
-                Spacer()
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color.milGreen)
+                HStack{
+                    ListeProfilo(nome: "Favorites", simbolo: "heart")
+                    ListeProfilo(nome: "To visit", simbolo: "mappin.and.ellipse")
+                }.padding(.top, 50)
+            }.frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color.milGreen)
+                
         }
     }
 }
