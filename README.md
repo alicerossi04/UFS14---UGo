@@ -14,6 +14,7 @@ Il progetto è funzionante, tuttavia alcune delle funzionalità previste non son
 - **Salvataggio itinerari**: sull'app sono state implementate due liste ("preferiti" e "da visitare"), tuttavia non è possibile salvare gli itinerari in queste categorie
 - **Login social**: le funzioni di login o registrazione tramite Google, Apple e GitHub non sono attive
 - **Condivisione**: la funzionalità per condividere un itinerario su altri social non è disponibile
+- **Dati profilo**: i dati mostrati nel profilo sono fittizi, non mostrano effettivamente lo username e email dell'utente loggato ma uno predefinito
 
 ## Architettura progetto
 - **Linguaggio e framework:** Swift e SwiftUI
