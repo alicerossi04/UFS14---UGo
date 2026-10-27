@@ -1,0 +1,98 @@
+name: Simulator screenshots
+
+# Builds UGo for the iOS Simulator, opens each screen with sample data (launch arguments
+# "-mock-data -screen <name>") and saves a PNG of it. The images are uploaded as a workflow
+# artifact and pushed to the "screenshots-output" branch. This runs only on the "screenshots" branch.
+
+on:
+  push:
+    branches: [screenshots]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  screenshots:
+    runs-on: macos-15
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: |
+          ls -d /Applications/Xcode*.app
+          if [ -d /Applications/Xcode_16.4.app ]; then sudo xcode-select -s /Applications/Xcode_16.4.app; fi
+          xcodebuild -version
+
+      - name: Pick a simulator
+        id: sim
+        run: |
+          xcrun simctl list devices available
+          UDID=$(xcrun simctl list devices available -j | python3 -c '
+          import json, sys
+          devices = json.load(sys.stdin)["devices"]
+          best = None
+          for runtime, devs in sorted(devices.items()):
+              if "iOS" not in runtime:
+                  continue
+              for d in devs:
+                  if d["name"].startswith("iPhone 16 Pro") and "Max" not in d["name"]:
+                      best = d["udid"]
+          if best is None:
+              for runtime, devs in sorted(devices.items()):
+                  if "iOS" not in runtime:
+                      continue
+                  for d in devs:
+                      if d["name"].startswith("iPhone"):
+                          best = d["udid"]
+          print(best)
+          ')
+          echo "Using simulator $UDID"
+          echo "udid=$UDID" >> "$GITHUB_OUTPUT"
+
+      - name: Build the app
+        run: |
+          set -o pipefail
+          xcodebuild -project UGo/UGo.xcodeproj -scheme UGo -configuration Debug \
+            -destination "platform=iOS Simulator,id=${{ steps.sim.outputs.udid }}" \
+            -derivedDataPath build -skipPackagePluginValidation -skipMacroValidation \
+            CODE_SIGNING_ALLOWED=NO build 2>&1 | tee build.log | tail -n 60
+
+      - name: Take the screenshots
+        run: |
+          UDID="${{ steps.sim.outputs.udid }}"
+          BUNDLE=it.itsrizzoli.UGo
+          xcrun simctl boot "$UDID" || true
+          xcrun simctl bootstatus "$UDID" -b
+          xcrun simctl status_bar "$UDID" override --time "9:41" --batteryState charged --batteryLevel 100 --cellularBars 4 --wifiBars 3 || true
+          APP=$(find build/Build/Products -maxdepth 3 -name UGo.app | head -n 1)
+          echo "App: $APP"
+          xcrun simctl install "$UDID" "$APP"
+          mkdir -p out
+          for screen in welcome login register home detail profile; do
+            xcrun simctl terminate "$UDID" "$BUNDLE" || true
+            xcrun simctl launch "$UDID" "$BUNDLE" -mock-data -screen "$screen"
+            sleep 14
+            xcrun simctl io "$UDID" screenshot "out/ugo-$screen.png"
+          done
+          ls -la out
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ugo-screenshots
+          path: out/*.png
+          if-no-files-found: warn
+
+      - name: Publish the images to a branch
+        if: success()
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git checkout --orphan screenshots-output
+          git rm -rf . > /dev/null 2>&1 || true
+          cp out/*.png .
+          git add ./*.png
+          git commit -m "UGo simulator screenshots"
+          git push -f origin screenshots-output

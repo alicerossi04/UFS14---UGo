@@ -11,6 +11,7 @@ import FirebaseFirestore
 class ItinerarioViewModel {
     
     func fetchItinerari(completion: @escaping ([Itinerario]) -> Void) {
+        if ScreenshotMode.useMock { completion(Itinerario.esempi); return }
         let db = Firestore.firestore()
         db.collection("Itinerari").getDocuments { snapshot, error in
             guard let docs = snapshot?.documents else {

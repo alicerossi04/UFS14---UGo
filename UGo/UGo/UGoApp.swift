@@ -18,7 +18,14 @@ struct UGoApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            switch ScreenshotMode.screen {
+            case "login": NavigationStack { Login() }
+            case "register": NavigationStack { Registrazione() }
+            case "home": NavigationStack { Homepage() }
+            case "detail": NavigationStack { PaginaDettagli(itinerario: Itinerario.esempio) }
+            case "profile": UserProfile()
+            default: ContentView()
+            }
         }
     }
 }

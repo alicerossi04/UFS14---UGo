@@ -11,6 +11,7 @@ import FirebaseFirestore
 class TagsViewModel {
     
     func fetchTags(completion: @escaping ([Tags]) -> Void) {
+        if ScreenshotMode.useMock { completion(Tags.esempi); return }
         let db = Firestore.firestore()
         db.collection("Tags").getDocuments { snapshot, error in
             guard let docs = snapshot?.documents else {
